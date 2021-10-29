@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="wrap-img" id="photo">
+    <img alt="photo" src="assets/images/ptosis.jpg">
+  </div>
+  <div *ngIf="!isOnMode" class="container-dot">
+    <div class="leftEye">
+      <div
+        [style.left]="leftTopX"
+        [style.top]="leftTopY">
+      </div>
+      <div [style.left]="leftCenterX"
+           [style.top]="leftCenterY">
+      </div>
+      <div [style.left]="leftBottomX"
+           [style.top]="leftBottomY">
+      </div>
+    </div>
+    <div class="rightEye">
+      <div
+        [style.left]="rightTopX"
+        [style.top]="rightTopY">
+      </div>
+      <div
+        [style.left]="rightCenterX"
+        [style.top]="rightCenterY">
+      </div>
+      <div
+        [style.left]="rightBottomX"
+        [style.top]="rightBottomY">
+      </div>
+    </div>
+  </div>
+  <div class="block-wrapper">
+    <div
+      *ngIf="isOnMode"
+      appDragging
+      class="wrapper-rightEye">
+      <div
+        [style.left]="rightCenterX"
+        [style.top]="rightCenterY"
+        class="right-vertical-line">
+      </div>
+      <div
+        [style.left]="rightTopX"
+        [style.top]="rightTopY"
+        class="right-range-line-top">
+      </div>
+      <div
+        [style.left]="rightCenterX"
+        [style.top]="rightCenterY"
+        class="right-range-line-center">
+      </div>
+      <div
+        [style.height.px]="height"
+        [style.left]="rightCenterCircleX"
+        [style.top]="rightCenterCircleY"
+        [style.width.px]="width"
+        class="circle">
+        <div
+          appResize
+          class="arrow">
+        </div>
+      </div>
+
+      <div
+        [style.left]="rightBottomX"
+        [style.top]="rightBottomY"
+        class="right-range-line-bottom">
+      </div>
+      <div
+        [style.left]="rightCenterX"
+        [style.top]="rightCenterY"
+        class="horizontal-line">
+      </div>
+    </div>
+
+    <div
+      *ngIf="isOnMode"
+      appDragging
+      class="wrapper-leftEye">
+      <div
+        [style.left]="leftCenterX"
+        [style.top]="leftCenterY"
+        class="left-vertical-line">
+      </div>
+      <div
+        [style.left]="leftTopX"
+        [style.top]="leftTopY"
+        class="left-range-line-top">
+      </div>
+      <div
+        [style.left]="leftCenterX"
+        [style.top]="leftCenterY"
+        class="left-range-line-center">
+      </div>
+      <div
+        [style.height.px]="height"
+        [style.left]="leftCenterCircleX"
+        [style.top]="leftCenterCircleY"
+        [style.width.px]="width"
+        class="circle">
+        <div
+          appResize
+          class="arrow"></div>
+      </div>
+      <div
+        [style.left]="leftBottomX"
+        [style.top]="leftBottomY"
+        class="left-range-line-bottom"></div>
+      <div
+        [style.left]="leftCenterX"
+        [style.top]="leftCenterY"
+        class="horizontal-line">
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap-btn">
+    <button
+      (click)="onEdit()"
+      class="edit-btn">Edit
+    </button>
+    <button
+      class="save-btn">Save
+    </button>
+  </div>
+</div>
+
+
+
+
