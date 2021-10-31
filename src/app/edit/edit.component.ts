@@ -1,17 +1,32 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
-import {DataService} from "../data.service";
+import {Component, OnInit} from '@angular/core';
+import {DataService} from "../shared/data.service";
+import {DataValueService} from "../shared/data-value.service";
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
-export class EditComponent implements OnInit, AfterViewChecked {
+export class EditComponent implements OnInit {
+
   isOnMode: boolean = true;
   height!: string;
   width!: string;
   resize: boolean = false;
+  rightPupil!: string;
+  leftPupil!: string;
 
+  topRightSize!: string;
+  bottomRightSize!: string;
+  topLeftSize!: string;
+  bottomLeftSize!: string;
+
+  heightRightTopArrow!: string;
+  heightRightBottomArrow!: string;
+  heightLeftTopArrow!: string;
+  heightLeftBottomArrow!: string;
+
+  eyes!: string;
   data: any;
   leftBottomX?: string;
   leftBottomY?: string;
@@ -30,18 +45,9 @@ export class EditComponent implements OnInit, AfterViewChecked {
   rightCenterCircleX?: string;
   rightCenterCircleY?: string;
   positionCircle = 10;
+  saveChanges: boolean = false;
 
-  rightTopLine!: any;
-  rightCenterLine!: any;
-  rightBottomLine!: any;
-
-  leftTopLine!: any;
-  leftCenterLine!: any;
-  leftBottomLine!: any;
-  rightRangeLine!: any;
-  leftRangeLine!: any;
-
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private dataValueService: DataValueService) {
   }
 
   ngOnInit(): void {
@@ -65,35 +71,40 @@ export class EditComponent implements OnInit, AfterViewChecked {
     this.rightTopY = this.data.OSTopY + coords.y + 'px';
     this.rightCenterCircleX = this.data.OSCenterX + coords.y - this.positionCircle + 'px';
     this.rightCenterCircleY = this.data.OSCenterY + coords.y - this.positionCircle + 'px';
+
+    this.dataValueService.rightValuePupil.subscribe((num) => {
+      this.rightPupil = (num * 0.26).toFixed(1) + ' mm';
+    });
+
+    this.dataValueService.leftValuePupil.subscribe((num) => {
+      this.leftPupil = (num * 0.26).toFixed(1) + ' mm';
+    });
+
+    this.dataValueService.rightTopSize.subscribe((num) => {
+      this.heightRightTopArrow = num + 'px';
+      this.topRightSize = (num * 0.26).toFixed(1) + ' mm';
+    });
+    this.dataValueService.rightBottomSize.subscribe((num) => {
+      this.heightRightBottomArrow = num + 'px';
+      this.bottomRightSize = (num * 0.26).toFixed(1) + ' mm';
+    });
+    this.dataValueService.leftTopSize.subscribe((num) => {
+      this.heightLeftTopArrow = num + 'px';
+      this.topLeftSize = (num * 0.26).toFixed(1) + ' mm';
+    });
+    this.dataValueService.leftBottomSize.subscribe((num) => {
+      this.heightLeftBottomArrow = num + 'px';
+      this.bottomLeftSize = (num * 0.26).toFixed(1) + ' mm';
+    });
+
   }
 
   onEdit() {
     this.isOnMode = !this.isOnMode;
+    this.saveChanges = false;
   }
 
-  ngAfterViewChecked() {
-    this.rightTopLine = document.querySelector('.right-range-line-top');
-    this.rightCenterLine = document.querySelector('.right-range-line-center');
-    this.rightBottomLine = document.querySelector('.right-range-line-bottom');
-    this.leftTopLine = document.querySelector('.left-range-line-top');
-    this.leftCenterLine = document.querySelector('.left-range-line-center');
-    this.leftBottomLine = document.querySelector('.left-range-line-bottom');
-    this.rightRangeLine = document.querySelector(".right-vertical-line");
-    this.leftRangeLine = document.querySelector(".left-vertical-line");
-    this.onMove();
+  onSave() {
+    this.saveChanges = true;
   }
-
-  onMove() {
-    let rightRangeCoords = this.getCoordinates(this.rightRangeLine);
-    let leftRangeCoords = this.getCoordinates(this.leftRangeLine);
-  }
-
-  getCoordinates(elem: any) {
-    let box = elem.getBoundingClientRect();
-
-    return {
-      left: box.left + pageXOffset,
-    };
-  }
-
 }

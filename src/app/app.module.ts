@@ -7,6 +7,7 @@ import {EditComponent} from './edit/edit.component';
 import {FormsModule} from "@angular/forms";
 import {ResizeDirective} from './shared/resize.directive';
 import {DraggingDirective} from './shared/dragging.directive';
+import {DragLineDirective} from './shared/drag-line.directive';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import {DraggingDirective} from './shared/dragging.directive';
     EditComponent,
     ResizeDirective,
     DraggingDirective,
+    DragLineDirective,
   ],
     imports: [
         BrowserModule,

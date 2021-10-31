@@ -41,14 +41,18 @@
         class="right-vertical-line">
       </div>
       <div
+        [eyes]="'rightTop'"
+        [save]="true"
         [style.left]="rightTopX"
         [style.top]="rightTopY"
+        appDragLine
         class="right-range-line-top">
       </div>
       <div
         [style.left]="rightCenterX"
         [style.top]="rightCenterY"
-        class="right-range-line-center">
+        class="right-range-line-center"
+        id="right-range-line-center">
       </div>
       <div
         [style.height.px]="height"
@@ -57,21 +61,38 @@
         [style.width.px]="width"
         class="circle">
         <div
+          [pupil]="'right'"
           appResize
           class="arrow">
         </div>
       </div>
-
       <div
+        [eyes]="'rightBottom'"
+        [save]="true"
         [style.left]="rightBottomX"
         [style.top]="rightBottomY"
+        appDragLine
         class="right-range-line-bottom">
       </div>
       <div
         [style.left]="rightCenterX"
         [style.top]="rightCenterY"
+        class="right-value-pupil">{{rightPupil}}</div>
+      <div
+        [style.left]="rightCenterX"
+        [style.top]="rightCenterY"
+        class="top-size"
+      >{{topRightSize}}</div>
+      <div
+        [style.left]="rightCenterX"
+        [style.top]="rightCenterY"
         class="horizontal-line">
       </div>
+      <div
+        [style.left]="rightCenterX"
+        [style.top]="rightCenterY"
+        class="bottom-size"
+      >{{bottomRightSize}}</div>
     </div>
 
     <div
@@ -84,8 +105,11 @@
         class="left-vertical-line">
       </div>
       <div
+        [eyes]="'leftTop'"
+        [save]="true"
         [style.left]="leftTopX"
         [style.top]="leftTopY"
+        appDragLine
         class="left-range-line-top">
       </div>
       <div
@@ -100,18 +124,36 @@
         [style.width.px]="width"
         class="circle">
         <div
+          [pupil]="'left'"
           appResize
           class="arrow"></div>
       </div>
       <div
+        [eyes]="'leftBottom'"
+        [save]="true"
         [style.left]="leftBottomX"
         [style.top]="leftBottomY"
+        appDragLine
         class="left-range-line-bottom"></div>
+      <div
+        [style.left]="leftCenterX"
+        [style.top]="leftCenterY"
+        class="left-value-pupil">{{leftPupil}}</div>
+      <div
+        [style.left]="leftCenterX"
+        [style.top]="leftCenterY"
+        class="top-size"
+      >{{topLeftSize}}</div>
       <div
         [style.left]="leftCenterX"
         [style.top]="leftCenterY"
         class="horizontal-line">
       </div>
+      <div
+        [style.left]="leftCenterX"
+        [style.top]="leftCenterY"
+        class="bottom-size"
+      >{{bottomLeftSize}}</div>
     </div>
   </div>
 
@@ -121,6 +163,7 @@
       class="edit-btn">Edit
     </button>
     <button
+      (click)="onSave()"
       class="save-btn">Save
     </button>
   </div>
