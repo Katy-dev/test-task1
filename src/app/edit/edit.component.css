@@ -14,18 +14,14 @@ img {
   width: 100%;
 }
 
-.edit-btn,
-.save-btn {
-  padding: 0.3rem 0;
-  width: 3.5rem;
+.edit-btn {
+  padding: 0.3rem 1rem;
   background-color: darkgray;
   color: white;
   outline: none;
   border: none;
   border-radius: 0.2rem;
-}
-
-.edit-btn {
+  white-space: nowrap;
   margin-right: 0.8rem;
 }
 
@@ -36,9 +32,6 @@ img {
   height: 0.8rem;
   border-radius: 100%;
   background-color: yellow;
-}
-
-.block-wrapper {
 }
 
 .wrapper-leftEye {

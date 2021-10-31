@@ -2,20 +2,27 @@ import {Directive, ElementRef, Inject, OnDestroy, OnInit} from '@angular/core';
 import {fromEvent, Subscription} from "rxjs";
 import {DOCUMENT} from "@angular/common";
 import {takeUntil} from "rxjs/operators";
+import {DataValueService} from "./data-value.service";
 
 @Directive({
   selector: '[appDragging]'
 })
 export class DraggingDirective implements OnInit, OnDestroy {
+  stopDrag!: boolean;
   private element!: HTMLElement;
   private subscriptions: Subscription[] = [];
 
   constructor(private elementRef: ElementRef,
-              @Inject(DOCUMENT) private document: any) { }
+              @Inject(DOCUMENT) private document: any,
+              private dataService: DataValueService) {
+  }
 
   ngOnInit(): void {
     this.element = this.elementRef.nativeElement as HTMLElement;
-    this.initDrag();
+    this.dataService.moveElement.subscribe(value => {
+      this.stopDrag = value;
+      if (this.stopDrag) this.initDrag();
+    });
   }
 
   initDrag(): void {
@@ -38,12 +45,13 @@ export class DraggingDirective implements OnInit, OnDestroy {
       this.element.classList.add('free-dragging');
       dragSub = drag$.subscribe((event: MouseEvent) => {
         event.preventDefault();
-
         currentX = event.clientX - initialX;
         currentY = event.clientY - initialY;
 
-        this.element.style.transform =
-          "translate3d(" + currentX + "px, " + currentY + "px, 0)";
+        if (this.stopDrag) {
+          this.element.style.transform =
+            "translate3d(" + currentX + "px, " + currentY + "px, 0)";
+        }
       });
     });
     const dragEndSub = dragEnd$.subscribe(() => {

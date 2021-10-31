@@ -16,6 +16,8 @@ export class EditComponent implements OnInit {
   rightPupil!: string;
   leftPupil!: string;
 
+  stopMoveElement: boolean = false;
+
   topRightSize!: string;
   bottomRightSize!: string;
   topLeftSize!: string;
@@ -54,6 +56,7 @@ export class EditComponent implements OnInit {
     this.data = this.dataService.data;
     let elem: any = document.getElementById('photo');
     let coords: any = elem.getBoundingClientRect();
+
     this.leftBottomX = this.data.ODBottomX + coords.x + 'px';
     this.leftBottomY = this.data.ODBottomY + coords.y + 'px';
     this.leftCenterX = this.data.ODCenterX + coords.x + 'px';
@@ -96,7 +99,6 @@ export class EditComponent implements OnInit {
       this.heightLeftBottomArrow = num + 'px';
       this.bottomLeftSize = (num * 0.26).toFixed(1) + ' mm';
     });
-
   }
 
   onEdit() {
@@ -104,7 +106,9 @@ export class EditComponent implements OnInit {
     this.saveChanges = false;
   }
 
-  onSave() {
-    this.saveChanges = true;
+  onMove() {
+    this.stopMoveElement = !this.stopMoveElement;
+    this.dataValueService.getStateMoveElement(this.stopMoveElement);
   }
+
 }

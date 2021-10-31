@@ -6,6 +6,7 @@ import {DataService} from "./data.service";
   providedIn: 'root'
 })
 export class DataValueService {
+  moveElement = new BehaviorSubject<boolean>(false);
 
   rightValuePupil = new BehaviorSubject<number>(this.dataStorage.data.OSSize);
   leftValuePupil = new BehaviorSubject<number>(this.dataStorage.data.ODSize);
@@ -43,4 +44,7 @@ export class DataValueService {
     this.leftBottomSize.next(value);
   }
 
+  getStateMoveElement(value: boolean) {
+    this.moveElement.next(value);
+  }
 }
