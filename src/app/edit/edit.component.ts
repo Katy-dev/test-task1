@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from "../shared/data.service";
 import {DataValueService} from "../shared/data-value.service";
 
+
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -15,19 +16,15 @@ export class EditComponent implements OnInit {
   resize: boolean = false;
   rightPupil!: any;
   leftPupil!: any;
-
   stopMoveElement: boolean = false;
-
   topRightSize!: any;
   bottomRightSize!: any;
   topLeftSize!: any;
   bottomLeftSize!: any;
-
   heightRightTopArrow!: string;
   heightRightBottomArrow!: string;
   heightLeftTopArrow!: string;
   heightLeftBottomArrow!: string;
-
   eyes!: string;
   data: any;
   leftBottomX?: string;
