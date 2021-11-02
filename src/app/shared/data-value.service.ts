@@ -11,10 +11,10 @@ export class DataValueService {
   rightValuePupil = new BehaviorSubject<number>(this.dataStorage.data.OSSize);
   leftValuePupil = new BehaviorSubject<number>(this.dataStorage.data.ODSize);
 
-  rightTopSize = new BehaviorSubject<number>(this.dataStorage.data.OSTopY);
-  rightBottomSize = new BehaviorSubject<number>(this.dataStorage.data.OSBottomY);
-  leftTopSize = new BehaviorSubject<number>(this.dataStorage.data.ODTopY);
-  leftBottomSize = new BehaviorSubject<number>(this.dataStorage.data.ODBottomY);
+  rightTopSize = new BehaviorSubject<number>(this.dataStorage.data.OSCenterY - this.dataStorage.data.OSTopY);
+  rightBottomSize = new BehaviorSubject<number>(this.dataStorage.data.OSBottomY - this.dataStorage.data.OSCenterY);
+  leftTopSize = new BehaviorSubject<number>(this.dataStorage.data.ODCenterY - this.dataStorage.data.ODTopY);
+  leftBottomSize = new BehaviorSubject<number>(this.dataStorage.data.ODBottomY - this.dataStorage.data.ODCenterY);
 
 
   constructor(private dataStorage: DataService) {

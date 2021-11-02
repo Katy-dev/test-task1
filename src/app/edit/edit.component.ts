@@ -9,19 +9,19 @@ import {DataValueService} from "../shared/data-value.service";
 })
 export class EditComponent implements OnInit {
 
-  isOnMode: boolean = true;
+  isOnMode: boolean = false;
   height!: string;
   width!: string;
   resize: boolean = false;
-  rightPupil!: string;
-  leftPupil!: string;
+  rightPupil!: any;
+  leftPupil!: any;
 
   stopMoveElement: boolean = false;
 
-  topRightSize!: string;
-  bottomRightSize!: string;
-  topLeftSize!: string;
-  bottomLeftSize!: string;
+  topRightSize!: any;
+  bottomRightSize!: any;
+  topLeftSize!: any;
+  bottomLeftSize!: any;
 
   heightRightTopArrow!: string;
   heightRightBottomArrow!: string;
@@ -48,6 +48,7 @@ export class EditComponent implements OnInit {
   rightCenterCircleY?: string;
   positionCircle = 10;
   saveChanges: boolean = false;
+  lens: number = 1;
 
   constructor(private dataService: DataService, private dataValueService: DataValueService) {
   }
@@ -64,7 +65,7 @@ export class EditComponent implements OnInit {
     this.leftTopX = this.data.ODTopX + coords.x + 'px';
     this.leftTopY = this.data.ODTopY + coords.y + 'px';
     this.leftCenterCircleX = this.data.ODCenterX + coords.x - this.positionCircle + 'px';
-    this.leftCenterCircleY = this.data.ODCenterY + coords.x - this.positionCircle + 'px';
+    this.leftCenterCircleY = this.data.ODCenterY + coords.y - this.positionCircle + 'px';
 
     this.rightBottomX = this.data.OSBottomX + coords.x + 'px';
     this.rightBottomY = this.data.OSBottomY + coords.y + 'px';
@@ -72,32 +73,32 @@ export class EditComponent implements OnInit {
     this.rightCenterY = this.data.OSCenterY + coords.y + 'px';
     this.rightTopX = this.data.OSTopX + coords.x + 'px';
     this.rightTopY = this.data.OSTopY + coords.y + 'px';
-    this.rightCenterCircleX = this.data.OSCenterX + coords.y - this.positionCircle + 'px';
+    this.rightCenterCircleX = this.data.OSCenterX + coords.x - this.positionCircle + 'px';
     this.rightCenterCircleY = this.data.OSCenterY + coords.y - this.positionCircle + 'px';
 
     this.dataValueService.rightValuePupil.subscribe((num) => {
-      this.rightPupil = (num * 0.26).toFixed(1) + ' mm';
+      this.rightPupil = this.calculateValue(num);
     });
 
     this.dataValueService.leftValuePupil.subscribe((num) => {
-      this.leftPupil = (num * 0.26).toFixed(1) + ' mm';
+      this.leftPupil = this.calculateValue(num);
     });
 
     this.dataValueService.rightTopSize.subscribe((num) => {
       this.heightRightTopArrow = num + 'px';
-      this.topRightSize = (num * 0.26).toFixed(1) + ' mm';
+      this.topRightSize = this.calculateValue(num);
     });
     this.dataValueService.rightBottomSize.subscribe((num) => {
       this.heightRightBottomArrow = num + 'px';
-      this.bottomRightSize = (num * 0.26).toFixed(1) + ' mm';
+      this.bottomRightSize = this.calculateValue(num);
     });
     this.dataValueService.leftTopSize.subscribe((num) => {
       this.heightLeftTopArrow = num + 'px';
-      this.topLeftSize = (num * 0.26).toFixed(1) + ' mm';
+      this.topLeftSize = this.calculateValue(num);
     });
     this.dataValueService.leftBottomSize.subscribe((num) => {
       this.heightLeftBottomArrow = num + 'px';
-      this.bottomLeftSize = (num * 0.26).toFixed(1) + ' mm';
+      this.bottomLeftSize = this.calculateValue(num);
     });
   }
 
@@ -109,6 +110,22 @@ export class EditComponent implements OnInit {
   onMove() {
     this.stopMoveElement = !this.stopMoveElement;
     this.dataValueService.getStateMoveElement(this.stopMoveElement);
+  }
+
+  calculateValue(valuePx: number) {
+    let valueMM;
+    if (this.lens > 0) {
+      let perc = 0.0232;
+      valueMM = (valuePx / 14.5) - (valuePx / 14.5) * perc * this.lens;
+      valueMM = valueMM.toFixed(1) + ' mm';
+    }
+
+    if (this.lens < 0) {
+      let perc = 0.0178;
+      valueMM = (valuePx / 14.5) - (valuePx / 14.5) * perc * this.lens;
+      valueMM = valueMM.toFixed(1) + ' mm';
+    }
+    return valueMM;
   }
 
 }

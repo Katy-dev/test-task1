@@ -21,7 +21,6 @@ export class DragLineDirective implements OnInit {
   rightMaxCordsBottom!: any;
   heightLine: number = 150;
 
-
   private element!: HTMLElement;
   private subscriptions: Subscription[] = [];
 
@@ -31,14 +30,6 @@ export class DragLineDirective implements OnInit {
   ngOnInit(): void {
     this.rightCenterLine = document.querySelector('.right-range-line-center');
     this.leftCenterLine = document.querySelector('.left-range-line-center');
-    this.leftCenterCoords = this.getCoordinates(this.leftCenterLine);
-    this.rightCenterCoords = this.getCoordinates(this.rightCenterLine);
-
-    this.rightMaxCordsBottom = this.rightCenterCoords + this.heightLine;
-    this.leftMaxCordsBottom = this.rightCenterCoords + this.heightLine;
-    this.rightMaxCordsTop = this.rightCenterCoords - this.heightLine;
-    this.leftMaxCordsTop = this.rightCenterCoords - this.heightLine;
-
     this.element = this.elementRef.nativeElement as HTMLElement;
     this.initDragLine();
   }
@@ -64,19 +55,27 @@ export class DragLineDirective implements OnInit {
 
       initialY = event.clientY - currentY;
       this.element.classList.add('line-dragging');
+
       dragSub = drag$.subscribe((event: MouseEvent) => {
         event.preventDefault();
-
         currentY = event.clientY - initialY;
+        this.leftCenterCoords = this.getCoordinates(this.leftCenterLine);
+        this.rightCenterCoords = this.getCoordinates(this.rightCenterLine);
+        this.rightMaxCordsBottom = this.rightCenterCoords + this.heightLine;
+        this.leftMaxCordsBottom = this.rightCenterCoords + this.heightLine;
+        this.rightMaxCordsTop = this.rightCenterCoords - this.heightLine;
+        this.leftMaxCordsTop = this.rightCenterCoords - this.heightLine;
 
         if (currentY) {
           if (this.element.classList.contains('left-range-line-bottom')) {
+
             if (this.leftCenterCoords <= event.clientY) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
             if (event.clientY <= this.leftMaxCordsBottom) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
+
             if (this.eyes === 'leftBottom') {
               this.dataService.setLeftBottomSize(event.clientY - this.leftCenterCoords);
             }
@@ -86,14 +85,17 @@ export class DragLineDirective implements OnInit {
         }
         if (currentY) {
           if (this.element.classList.contains('left-range-line-top')) {
-            if (this.leftCenterCoords >= event.clientY) {
+
+            if (this.leftCenterCoords <= event.clientY) {
+              console.log(this.leftCenterCoords, event.clientY)
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
             if (event.clientY >= this.leftMaxCordsTop) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
+
             if (this.eyes === 'leftTop') {
-              this.dataService.setLeftTopSize(event.clientY - this.leftCenterCoords);
+              this.dataService.setLeftTopSize(this.leftCenterCoords - event.clientY);
             }
             localStorage.setItem('ODTopX', JSON.stringify(event.clientX));
             localStorage.setItem('ODTopY', JSON.stringify(event.clientY));
@@ -119,11 +121,12 @@ export class DragLineDirective implements OnInit {
             if (this.rightCenterCoords >= event.clientY) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
-            if (event.clientY >= this.rightMaxCordsTop) {
+            if (event.clientY <= this.rightMaxCordsTop) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
+
             if (this.eyes === 'rightTop') {
-              this.dataService.setRightTopSize(event.clientY - this.rightCenterCoords);
+              this.dataService.setRightTopSize(this.rightCenterCoords - event.clientY);
             }
             localStorage.setItem('OSTopX', JSON.stringify(event.clientX));
             localStorage.setItem('OSTopY', JSON.stringify(event.clientY));
