@@ -68,8 +68,7 @@ export class DragLineDirective implements OnInit {
 
         if (currentY) {
           if (this.element.classList.contains('left-range-line-bottom')) {
-
-            if (this.leftCenterCoords <= event.clientY) {
+            if (this.leftCenterCoords >= event.clientY) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
             if (event.clientY <= this.leftMaxCordsBottom) {
@@ -87,7 +86,6 @@ export class DragLineDirective implements OnInit {
           if (this.element.classList.contains('left-range-line-top')) {
 
             if (this.leftCenterCoords <= event.clientY) {
-              console.log(this.leftCenterCoords, event.clientY)
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
             if (event.clientY >= this.leftMaxCordsTop) {
@@ -118,10 +116,10 @@ export class DragLineDirective implements OnInit {
         }
         if (currentY) {
           if (this.element.classList.contains('right-range-line-top')) {
-            if (this.rightCenterCoords >= event.clientY) {
+            if (this.rightCenterCoords <= event.clientY) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
-            if (event.clientY <= this.rightMaxCordsTop) {
+            if (event.clientY >= this.rightMaxCordsTop) {
               this.element.style.transform = "translateY(" + currentY + "px)";
             }
 
